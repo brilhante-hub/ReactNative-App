@@ -23,10 +23,12 @@ export const style  = StyleSheet.create({
         // backgroundColor: 'green'
         padding: 37
     },
-    boxBottom: {
+    boxBotton: {
         height: Dimensions.get('window').height / 3,
         width: '100%',
-       backgroundColor: 'blue'
+        //backgroundColor: 'blue'
+        alignItems: 'center',
+        
 
     },
     logo: {
@@ -60,5 +62,31 @@ export const style  = StyleSheet.create({
         width: '90%',
         // backgroundColor: 'red',
         borderRadius: 40
+    },
+    button: {
+        width: 250,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor:themas.colors.primary,
+        borderRadius: 40,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 7,
+        
+    },
+    textButton: {
+        fontSize: 16,
+        color: '#FFF',
+        fontWeight: 'bold'
+    },
+    textBotton: {
+        fontSize: 16,
+        color: themas.colors.gray
     }
 })
