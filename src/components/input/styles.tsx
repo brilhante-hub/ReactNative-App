@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Button, StyleSheet } from "react-native";
 import { themas } from "../../global/themes";
 
 export const style = StyleSheet.create({
@@ -28,5 +28,9 @@ export const style = StyleSheet.create({
     },
     Icon: {
         width: '100%'
+    },
+
+    Button: {
+        width: '10%'
     }
 })
