@@ -25,20 +25,20 @@ export const Input = forwardRef<TextInput, Props>((Props, ref: ForwardedRef<Text
     } = Props
     const calculateSizeWidth = () => {
         if (IconLeft && IconRight) {
-            return '80%'
+            return "80%"
         } else if (IconLeft || IconRight) {
-            return '90%'
+            return "90%"
         } else {
-            return '100%'
+            return "100%"
         }
     }
     const calculateSizePaddingLeft = () => {
         if (IconLeft && IconRight) {
-            return '80%'
+            return 0
         } else if (IconLeft || IconRight) {
-            return '90%'
+            return 10
         } else {
-            return '100%'
+            return 20
         }
     }
     return (
