@@ -4,6 +4,8 @@ import { style } from "./styles";
 import { Input } from "../../components/input";
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ball } from "../../components/Ball";
+import { Flag } from "../../components/Flag";
+import { themas } from "../../global/themes";
 
 
 type PropCard = {
@@ -22,7 +24,7 @@ const data: Array<PropCard> = [
 
     {
         item: 1,
-        title: 'Passera com o cachorro',
+        title: 'Passear com o cachorro',
         description: 'pagina 18 ao 28',
         flag: 'urgente'
     },
@@ -39,18 +41,16 @@ export default function List() {
     const renderCard = (item: PropCard) => {
         return (
             <TouchableOpacity style={style.card}>
-                <View style={style.rowCard}></View>
-                <View style={style.rowCardLeft}>
-                    <Ball color="red" />
-                    <View>
-                        <Text>{item.title}</Text>
-                        <Text>{item.description}</Text>
+                <View style={style.rowCard}>
+                    <View style={style.rowCardLeft}>
+                        <Ball color="red" />
+                        <View>
+                            <Text>{item.title}</Text>
+                            <Text>{item.description}</Text>
+                        </View>
                     </View>
-
-                    {/* <Flag> */}
-
+                    <Flag caption="Urgente" color={themas.colors.red} />
                 </View>
-
             </TouchableOpacity>
         )
     }
