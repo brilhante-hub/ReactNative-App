@@ -25,6 +25,11 @@ export const style = StyleSheet.create({
     boxInput: {
         width: '80%',
     },
+    boxList: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: 'red'
+    }
     
 
 
