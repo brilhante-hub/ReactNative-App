@@ -1,5 +1,5 @@
 import React, { useState } from "react";
- 
+
 import {
     Text, View, Image, TextInput, TouchableOpacity,
     Alert, ActivityIndicator
@@ -12,27 +12,26 @@ import { Input } from "../../components/input";
 import { Button } from "../../components/Button";
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import BottomRoutes from "../../routes/bottom.routes";
- 
+
 export default function Login() {
- 
+
     const navigation = useNavigation<NavigationProp<any>>();
- 
+
     const [email, setEmail] = useState('a');
     const [password, setPassword] = useState('a');
     const [showPassword, setShowPassword] = useState(true);
     const [loading, setLoading] = useState(false);
- 
+
     async function getLogin() {
         try {
             setLoading(true)
             if (!email || !password) {
                 return Alert.alert('Atenção', 'Informe os campos obrigatórios!');
             }
- 
-            navigation.reset({routes: [{name: "BottomRoutes"}]})
- 
+
+            navigation.reset({ routes: [{ name: "BottomRoutes" }] })
             console.log("Logou!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
- 
+
         } catch (error) {
             console.log(error);
         } finally {
@@ -75,4 +74,3 @@ export default function Login() {
         </View >
     )
 }
- 

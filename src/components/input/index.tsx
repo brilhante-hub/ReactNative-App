@@ -34,16 +34,16 @@ export const Input = forwardRef<TextInput, Props>((Props, ref: ForwardedRef<Text
     }
     const calculateSizePaddingLeft = () => {
         if (IconLeft && IconRight) {
-            return 0
+            return 0;
         } else if (IconLeft || IconRight) {
-            return 10
+            return 10;
         } else {
-            return 20
+            return 20;
         }
     }
     return (
         <Fragment>
-            <Text style={style.titleInput}>{title}</Text>
+            {title && <Text style={style.titleInput}>{title}</Text> }
             <View style={[style.boxInput, { paddingLeft: calculateSizePaddingLeft() }]}>
                 {IconLeft && IconLeftName && (
                     <TouchableOpacity onPress={onIconLeftPress} style={style.Button}>
