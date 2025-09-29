@@ -5,6 +5,7 @@ import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Input } from "../components/input";
 import { themas } from "../global/themes";
 import { Flag } from "../components/Flag";
+import CustomDateTimePicker from "../components/CustomDateTimePicker";
 
 
 
@@ -43,7 +44,7 @@ export const AuthProviderList = (props: any): any => {
                     <Flag
                         caption={item.caption}
                         color={item.color}
-                        selected
+                        // selected
                     />
                 </TouchableOpacity>
             ))
@@ -94,9 +95,15 @@ export const AuthProviderList = (props: any): any => {
                     />
                 </View>
                 <View style={{ width: '40%' }}>
-                    <Input
+                    {/* <Input
                         title="Tempo limite:"
                         labelStyle={styles.label}
+                    /> */}
+                    <CustomDateTimePicker
+                    onDateChange={() => { }}
+                    setShow={() => { }}
+                    show={true}
+                    type={'date'}
                     />
                 </View>
                 <View style={styles.containerFlag}>
