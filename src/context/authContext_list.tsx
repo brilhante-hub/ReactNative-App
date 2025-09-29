@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useRef, useEffect } from "react";
-import { Dimensions, Text, View, StyleSheet, Touchable, TouchableOpacity } from "react-native";
+import React, { createContext, useContext, useRef, useEffect, useState } from "react";
+import { Dimensions, Text, View, StyleSheet, Touchable, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Input } from "../components/input";
@@ -13,11 +13,18 @@ export const AuthContextList: any = createContext({});
 const flag = [
     { caption: 'Urgente', color: themas.colors.red },
     { caption: 'Opcional', color: themas.colors.blueLight },
-]
+];
+
 
 export const AuthProviderList = (props: any): any => {
 
     const modalizeRef = useRef<Modalize>(null);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [selectedFlag, setSelected] = useState('Urgente');
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedTime, setSelectedTime] = useState(new Date());
+
     const onOpen = () => {
         modalizeRef?.current?.open();
 
@@ -35,9 +42,9 @@ export const AuthProviderList = (props: any): any => {
                 <TouchableOpacity key={index}>
                     <Flag
                         caption={item.caption}
-                        color={item.color} 
-                        selected 
-                        />
+                        color={item.color}
+                        selected
+                    />
                 </TouchableOpacity>
             ))
 
@@ -46,7 +53,10 @@ export const AuthProviderList = (props: any): any => {
 
     const _container = () => {
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
                 <View style={styles.header}>
                     <TouchableOpacity onPress={() => onClose()}>
                         <MaterialIcons
@@ -54,6 +64,7 @@ export const AuthProviderList = (props: any): any => {
                             size={30}
                         />
                     </TouchableOpacity>
+
                     <Text style={styles.title}>Criar tarefa</Text>
                     <TouchableOpacity>
                         <AntDesign
@@ -67,6 +78,9 @@ export const AuthProviderList = (props: any): any => {
                     <Input
                         title="Titulo"
                         labelStyle={styles.label}
+                        value={title}
+                        onChangeText={setTitle}
+
                     />
 
                     <Input
@@ -75,6 +89,8 @@ export const AuthProviderList = (props: any): any => {
                         height={100}
                         multiline
                         numberOfLines={5}
+                        value={description}
+                        onChangeText={setDescription}
                     />
                 </View>
                 <View style={{ width: '40%' }}>
@@ -90,7 +106,7 @@ export const AuthProviderList = (props: any): any => {
 
                     </View>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         )
     }
     return (
