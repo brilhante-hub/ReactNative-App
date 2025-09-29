@@ -25,6 +25,8 @@ export const AuthProviderList = (props: any): any => {
     const [selectedFlag, setSelected] = useState('Urgente');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
 
     const onOpen = () => {
         modalizeRef?.current?.open();
@@ -50,6 +52,13 @@ export const AuthProviderList = (props: any): any => {
             ))
 
         )
+    }
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+    }
+    const handleTimeChange = (date) => {
+        setSelected(date);
     }
 
     const _container = () => {
@@ -100,9 +109,15 @@ export const AuthProviderList = (props: any): any => {
                         labelStyle={styles.label}
                     /> */}
                     <CustomDateTimePicker
-                    onDateChange={() => { }}
-                    setShow={() => { }}
-                    show={true}
+                    onDateChange={handleDateChange}
+                    setShow={setShowDatePicker}
+                    show={showDatePicker}
+                    type={'date'}
+                    />
+                    <CustomDateTimePicker
+                    onDateChange={handleTimeChange}
+                    setShow={setShowTimePicker}
+                    show={showTimePicker}
                     type={'date'}
                     />
                 </View>
