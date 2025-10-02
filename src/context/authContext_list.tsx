@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useRef, useEffect, useState } from "react";
-import { Dimensions, Text, View, StyleSheet, Touchable, TouchableOpacity, KeyboardAvoidingView, Platform } from "react-native";
+import { Dimensions, Text, View, StyleSheet, Touchable, TouchableOpacity, KeyboardAvoidingView, Platform, Alert } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Input } from "../components/input";
@@ -61,24 +61,39 @@ const onClose = () => {
     const handleDateChange  = (date) => {
         setSelectedDate(date);
     }
-       const handleTimeChange  = (date) => {
-        setSelectedTime(date);
+       const handleTimeChange  = (time) => {
+        setSelectedTime(time);
     }
-    const handleSave = () => {
+    const handleSave = async () => {
+         if(!title || !desccription || !selectedFlag) {
+              return Alert.alert('Atenção', 'Preencha os campos corretamente!');
+            }
+        try {
         const newItem = {
-            item: Date.now,
+            item: Date.now(),
             title,
             desccription,
             flags: selectedFlag,
-            timeLimite: new Date(
+            timeLimite: new Date (
                 selectedDate.getFullYear(),
-                selectedDate.getMonth(),
-                selectedDate.getDate(),
-                selectedTime.getHours(),
-                selectedTime.getMinutes()
+                    selectedDate.getMonth(),
+                    selectedDate.getDate(),
+                    selectedDate.getHours(),
+                    selectedTime.getMinutes()
+               
             ).toISOString(),
+           
         }
-        console.log(newItem)
+ 
+        const storageData= await AsyncStorage.getItem('tasklist');
+        console.log(storageData)
+        let taskList = storageData ? JSON.parse (storageData) : [];
+        await AsyncStorage.setItem('tasklist', JSON.stringify(taskList))
+ 
+    } catch (error) {
+        console.log("Erro ao salvar o item", error)
+    }
+       
     }
  
     const _container = () => {
@@ -90,7 +105,7 @@ const onClose = () => {
                 <View style={styles.header}>
                     <TouchableOpacity onPress={()=>onClose()}>
                         <MaterialIcons
-                            name="close"
+                           name="close"
                             size={30}
                         />
                     </TouchableOpacity>
@@ -101,6 +116,8 @@ const onClose = () => {
                             size={30}
                         />
                     </TouchableOpacity>
+ 
+                   
  
                 </View>
                 <View style={styles.content}>
@@ -145,6 +162,7 @@ const onClose = () => {
                             editable={false}
                             value={selectedTime.toLocaleTimeString()}
                             onPress={() => setShowTimePicker(true)}
+                           
  
  
                             />
