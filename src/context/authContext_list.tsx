@@ -7,105 +7,116 @@ import { themas } from "../global/themes";
 import { Flag } from "../components/Flag";
 import CustomDateTimePicker from "../components/CustomDateTimePicker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
- 
- 
- 
+
+
+
 export const AuthContextList: any = createContext({});
- 
+
 const flag = [
     { caption: 'Urgente', color: themas.colors.red },
     { caption: 'Opcional', color: themas.colors.blueLight },
 ];
- 
+
 export const AuthProviderList = (props: any): any => {
- 
+
     const modalizeRef = useRef<Modalize>(null);
-    const [title,setTitle] = useState('');
+    const [title, setTitle] = useState('');
     const [desccription, setDescription] = useState('');
     const [selectedFlag, setSelectedFlag] = useState('urgente');
     const [selectedDate, setSelectedDate] = useState(new Date());
-     const [selectedTime, setSelectedTime] = useState(new Date());
-     const [showDatePicker, setShowDatePicker] = useState(false);
-     const [showTimePicker, setShowTimePicker] = useState(false);
-     const [item, setItem] = useState (0);
+    const [selectedTime, setSelectedTime] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
+    const [item, setItem] = useState(0);
+    const [taskList, setTaskList] = useState([]);
+
     const onOpen = () => {
         modalizeRef?.current?.open();
     }
-const onClose = () => {
-    modalizeRef?.current?.close();
-}
- 
+    const onClose = () => {
+        modalizeRef?.current?.close();
+    }
+
     useEffect(() => {
-        onOpen()
-    }, [])
- 
+        console.log(taskList.length)
+    }, [taskList]);
+
     const _RenderFlags = () => {
         return (
             flag.map((item, index) => (
                 <TouchableOpacity key={index}
-                onPress={()=> {
-                    setSelectedFlag(item.caption)
-                }}
+                    onPress={() => {
+                        setSelectedFlag(item.caption)
+                    }}
                 >
                     <Flag
                         caption={item.caption}
                         color={item.color}
                         selected={item.caption == selectedFlag}
-                        />
+                    />
                 </TouchableOpacity>
             ))
- 
+
         )
     }
- 
-    const handleDateChange  = (date) => {
+
+    const handleDateChange = (date) => {
         setSelectedDate(date);
     }
-       const handleTimeChange  = (time) => {
+    const handleTimeChange = (time) => {
         setSelectedTime(time);
     }
     const handleSave = async () => {
-         if(!title || !desccription || !selectedFlag) {
-              return Alert.alert('Atenção', 'Preencha os campos corretamente!');
-            }
+        if (!title || !desccription || !selectedFlag) {
+            return Alert.alert('Atenção', 'Preencha os campos corretamente!');
+        }
         try {
-        const newItem = {
-            item: Date.now(),
-            title,
-            desccription,
-            flags: selectedFlag,
-            timeLimite: new Date (
-                selectedDate.getFullYear(),
+            const newItem = {
+                item: Date.now(),
+                title,
+                desccription,
+                flags: selectedFlag,
+                timeLimite: new Date(
+                    selectedDate.getFullYear(),
                     selectedDate.getMonth(),
                     selectedDate.getDate(),
                     selectedDate.getHours(),
                     selectedTime.getMinutes()
-               
-            ).toISOString(),
-           
+
+                ).toISOString(),
+
+            }
+
+            const storageData = await AsyncStorage.getItem('tasklist');
+            // console.log(storageData)
+            let taskList = storageData ? JSON.parse(storageData) : [];
+            await AsyncStorage.setItem('tasklist', JSON.stringify(taskList))
+
+        } catch (error) {
+            console.log("Erro ao salvar o item", error)
         }
- 
-        const storageData= await AsyncStorage.getItem('tasklist');
-        console.log(storageData)
-        let taskList = storageData ? JSON.parse (storageData) : [];
-        await AsyncStorage.setItem('tasklist', JSON.stringify(taskList))
- 
-    } catch (error) {
-        console.log("Erro ao salvar o item", error)
+
     }
-       
+
+    const setData = () => {
+        setTitle('')
+        setDescription(''),
+        setSelectedFlag('Urgente'),
+        setItem(0),
+        setSelectedDate(new Date())
+        setSelectedTime(new Date())
     }
- 
+
     const _container = () => {
         return (
-           <KeyboardAvoidingView
-           style={styles.container}
-           behavior={Platform.OS === 'ios'? 'padding' : 'height'}
-           >
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
                 <View style={styles.header}>
-                    <TouchableOpacity onPress={()=>onClose()}>
+                    <TouchableOpacity onPress={() => onClose()}>
                         <MaterialIcons
-                           name="close"
+                            name="close"
                             size={30}
                         />
                     </TouchableOpacity>
@@ -116,9 +127,9 @@ const onClose = () => {
                             size={30}
                         />
                     </TouchableOpacity>
- 
-                   
- 
+
+
+
                 </View>
                 <View style={styles.content}>
                     <Input
@@ -127,7 +138,7 @@ const onClose = () => {
                         value={title}
                         onChangeText={setTitle}
                     />
- 
+
                     <Input
                         title="Descrição"
                         labelStyle={styles.label}
@@ -139,62 +150,62 @@ const onClose = () => {
                         textAlignVertical="top"
                     />
                 </View>
-                <View style={{ width: '40%'}}>
-                   {/* <Input
+                <View style={{ width: '40%' }}>
+                    {/* <Input
                         title="Tempo limite:"
                         labelStyle={styles.label}
                     />*/}
-                    <View style={{flexDirection: 'row', gap: 10, width: '100%' }}>
-                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={{width: 200}}>
+                    <View style={{ flexDirection: 'row', gap: 10, width: '100%' }}>
+                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={{ width: 200 }}>
                             <Input
-                            title="Data Limite"
-                            labelStyle={styles.label}
-                            editable={false}
-                            value={selectedDate.toLocaleDateString()}
-                            onPress={() => setShowDatePicker(true)}
-                           
+                                title="Data Limite"
+                                labelStyle={styles.label}
+                                editable={false}
+                                value={selectedDate.toLocaleDateString()}
+                                onPress={() => setShowDatePicker(true)}
+
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 120}} onPress={() => setShowTimePicker(true)}>
+                        <TouchableOpacity style={{ width: 120 }} onPress={() => setShowTimePicker(true)}>
                             <Input
-                            title="Hora Limite"
-                            labelStyle={styles.label}
-                            editable={false}
-                            value={selectedTime.toLocaleTimeString()}
-                            onPress={() => setShowTimePicker(true)}
-                           
- 
- 
+                                title="Hora Limite"
+                                labelStyle={styles.label}
+                                editable={false}
+                                value={selectedTime.toLocaleTimeString()}
+                                onPress={() => setShowTimePicker(true)}
+
+
+
                             />
                         </TouchableOpacity>
                     </View>
                     <CustomDateTimePicker
-                    onDateChange={handleDateChange}
-                    setShow={setShowDatePicker}
-                    show={showDatePicker}
-                    type={'date'}
+                        onDateChange={handleDateChange}
+                        setShow={setShowDatePicker}
+                        show={showDatePicker}
+                        type={'date'}
                     />
-                       <CustomDateTimePicker
-                    onDateChange={handleTimeChange}
-                    setShow={setShowTimePicker}
-                    show={showTimePicker}
-                    type={'time'}
+                    <CustomDateTimePicker
+                        onDateChange={handleTimeChange}
+                        setShow={setShowTimePicker}
+                        show={showTimePicker}
+                        type={'time'}
                     />
                 </View>
                 <View style={styles.containerFlag}>
                     <Text style={styles.label}>Flags: </Text>
                     <View style={styles.rowFlags}>
                         {_RenderFlags()}
- 
+
                     </View>
                 </View>
-           
-             </KeyboardAvoidingView>
-           
+
+            </KeyboardAvoidingView>
+
         )
     }
     return (
-        <AuthContextList.Provider value={{ onOpen }}>
+        <AuthContextList.Provider value={{ onOpen, taskList }}>
             {props.children}
             <Modalize
                 ref={modalizeRef}
@@ -207,7 +218,7 @@ const onClose = () => {
         </AuthContextList.Provider>
     )
 }
- 
+
 export const useAuth = () => useContext(AuthContextList);
 export const styles = StyleSheet.create({
     container: {
