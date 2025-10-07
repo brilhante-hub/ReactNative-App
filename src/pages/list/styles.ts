@@ -5,8 +5,7 @@ export const style = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-       // backgroundColor: 'red',
-
+        // backgroundColor: 'red'
     },
     header: {
         width: '100%',
@@ -15,15 +14,13 @@ export const style = StyleSheet.create({
         paddingHorizontal: 20,
         justifyContent: 'center'
     },
-
     greeting: {
         fontSize: 20,
         color: '#FFF',
-        marginTop: 20,
-
+        marginTop: 20
     },
     boxInput: {
-        width: '80%',
+        width: '80%'
     },
     boxList: {
         flex: 1,
@@ -39,13 +36,13 @@ export const style = StyleSheet.create({
         justifyContent: 'center',
         padding: 10,
         borderWidth: 1,
-        borderColor: 'black'
-
+        borderColor: themas.colors.lightGray
     },
     rowCard: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
+
     },
     rowCardLeft: {
         width: '70%',
@@ -55,12 +52,19 @@ export const style = StyleSheet.create({
     },
     titleCard: {
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: 'bold'
     },
     descriptionCard: {
         color: themas.colors.gray
+    },
+    button: {
+        backgroundColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 100,
+        marginVertical: 10,
+        borderRadius: 10
     }
-    
 
 
 })
